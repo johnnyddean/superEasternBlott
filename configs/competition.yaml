@@ -1,0 +1,42 @@
+team_name: "YourTeamName"
+parent_name: "sfGFP"
+parent_pdb: "2B3P"
+
+raw_data:
+  refs: "data/raw/AAseqs of 5 GFP proteins_20260511.txt"
+  gfp_xlsx: "data/raw/GFP_data.xlsx"
+  exclusion_csv: "data/raw/Exclusion_List.csv"
+  submission_template: "data/raw/submission_template.csv"
+
+submission:
+  max_sequences: 6
+  min_length: 220
+  max_length: 250
+  must_start_with: "M"
+  allowed_aas: "ACDEFGHIKLMNPQRSTVWY"
+  required_columns:
+    - Team_Name
+    - Seq_ID
+    - Sequence
+
+brightness_elimination:
+  relative_brightness_threshold: 0.30
+
+protected_positions:
+  - 65
+  - 66
+  - 67
+
+pocket_positions:
+  - 64
+  - 65
+  - 66
+  - 67
+  - 68
+  - 145
+  - 148
+  - 165
+  - 167
+  - 203
+  - 205
+  - 222

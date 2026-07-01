@@ -1,0 +1,158 @@
+environments:
+  root: ".venvs"
+  python: "python"
+  modules:
+    brightness:
+      env_name: "spebt_brightness"
+      requirements:
+        - "numpy>=1.24"
+        - "pandas>=2.0"
+        - "scikit-learn>=1.3"
+        - "joblib>=1.3"
+        - "huggingface_hub>=0.23"
+        - "torch"
+        - "esm>=3.2.1.post1"
+        - "safetensors>=0.4.3"
+    candidates:
+      env_name: "spebt_candidates"
+      requirements: []
+    filters:
+      env_name: "spebt_filters"
+      requirements: []
+    ranking:
+      env_name: "spebt_ranking"
+      requirements:
+        - "numpy>=1.24"
+    stability:
+      env_name: "spebt_stability"
+      requirements:
+        - "numpy>=1.24"
+        - "pandas>=2.0"
+        - "scikit-learn>=1.3"
+        - "joblib>=1.3"
+        - "huggingface_hub>=0.23"
+        - "torch"
+        - "esm>=3.2.1.post1"
+        - "safetensors>=0.4.3"
+        - "transformers>=4.48.1"
+        - "accelerate>=0.26.0"
+    structure:
+      env_name: "spebt_structure"
+      requirements:
+        - "numpy>=1.24"
+        - "huggingface_hub>=0.23"
+        - "torch"
+        - "transformers>=4.48.1"
+        - "accelerate>=0.26.0"
+    submission:
+      env_name: "spebt_submission"
+      requirements:
+        - "pandas>=2.0"
+    esmc:
+      env_name: "spebt_esmc"
+      requirements:
+        - "numpy>=1.24"
+        - "huggingface_hub>=0.23"
+        - "torch"
+        - "esm>=3.2.1.post1"
+        - "safetensors>=0.4.3"
+    inverse_folding:
+      env_name: "spebt_inverse_folding"
+      requirements:
+        - "huggingface_hub>=0.23"
+        - "torch"
+
+assets:
+  - asset_id: "esmc_600m"
+    tool_module: "esmc"
+    kind: "huggingface_snapshot"
+    repo_id: "biohub/ESMC-600M"
+    revision: "main"
+    target_dir: "external/weights/esmc/ESMC-600M"
+    allow_patterns:
+      - "config.json"
+      - "model.safetensors"
+      - "special_tokens_map.json"
+      - "tokenizer.json"
+      - "tokenizer_config.json"
+    size_bytes: 2300257132
+    size_source: "HuggingFace model_info(files_metadata=True) for biohub/ESMC-600M, 2026-06-30"
+    required: false
+    description: "ESMC 600M sequence model weights for embedding-based scoring."
+
+  - asset_id: "esm2_t33_650m"
+    tool_module: "brightness"
+    kind: "huggingface_snapshot"
+    repo_id: "facebook/esm2_t33_650M_UR50D"
+    revision: "main"
+    target_dir: "external/weights/esm2/esm2_t33_650M_UR50D"
+    allow_patterns:
+      - "config.json"
+      - "model.safetensors"
+      - "special_tokens_map.json"
+      - "tokenizer_config.json"
+      - "vocab.txt"
+    size_bytes: 2609507429
+    size_source: "HuggingFace model_info selected safetensors/config/tokenizer files, 2026-06-30"
+    required: false
+    description: "Fallback ESM2 embedding model for brightness regressors if ESMC is unavailable."
+
+  - asset_id: "esmfold_v1"
+    tool_module: "stability"
+    kind: "huggingface_snapshot"
+    repo_id: "facebook/esmfold_v1"
+    revision: "main"
+    target_dir: "external/weights/esmfold/esmfold_v1"
+    size_bytes: 8442067036
+    size_source: "HuggingFace model_info(files_metadata=True), 2026-06-30"
+    required: false
+    description: "ESMFold structure model reserved for structure-based stability refinement."
+
+  - asset_id: "proteinmpnn_repo"
+    tool_module: "inverse_folding"
+    kind: "git_repository"
+    repo_url: "https://github.com/dauparas/ProteinMPNN.git"
+    revision: "main"
+    target_dir: "external/repositories/ProteinMPNN"
+    size_bytes: 187745662
+    size_source: "measured local checkout size on 2026-06-30"
+    required: false
+    description: "ProteinMPNN source repository for inverse folding generation."
+
+  - asset_id: "proteinmpnn_weights"
+    tool_module: "inverse_folding"
+    kind: "repository_file"
+    source_path: "external/repositories/ProteinMPNN/vanilla_model_weights/v_48_020.pt"
+    target_path: "external/weights/ProteinMPNN/vanilla_model_weights/v_48_020.pt"
+    size_bytes: 6681301
+    size_source: "measured from downloaded ProteinMPNN repository file"
+    required: false
+    description: "ProteinMPNN vanilla model checkpoint, provided inside the downloaded repository."
+
+  - asset_id: "thermompnn_repo"
+    tool_module: "stability"
+    kind: "git_repository"
+    repo_url: "https://github.com/Kuhlman-Lab/ThermoMPNN.git"
+    revision: "main"
+    target_dir: "external/repositories/ThermoMPNN"
+    size_bytes: 227883023
+    size_source: "measured local checkout size on 2026-06-30"
+    required: false
+    description: "ThermoMPNN source repository reserved for ddG/stability scoring."
+
+  - asset_id: "rasp_repo"
+    tool_module: "stability"
+    kind: "git_repository"
+    repo_url: "https://github.com/KULL-Centre/_2022_ML-ddG-Blaabjerg.git"
+    revision: "main"
+    target_dir: "external/repositories/RaSP"
+    size_bytes: 1597669117
+    size_source: "measured local checkout size on 2026-06-30"
+    required: false
+    description: "RaSP/ddG source repository reserved for structure refinement."
+
+manual_assets:
+  - asset_id: "foldx_binary"
+    tool_module: "stability"
+    target_dir: "external/weights/FoldX"
+    description: "FoldX is licensed software. Download manually from the official source and place the binary here."

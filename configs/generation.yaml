@@ -1,0 +1,48 @@
+single_mutation:
+  enabled: true
+  max_candidates: 5000
+
+stage2:
+  stage1_seed_limit: 200
+  max_total_candidates: 5200
+
+combinatorial_mutation:
+  enabled: true
+  top_single_seeds: 80
+  max_mutations_per_variant: 3
+  max_candidates_per_order: 5000
+
+inverse_folding:
+  enabled: true
+  num_seq_per_target: 128
+  sampling_temps: [0.1, 0.2, 0.3]
+  fixed_positions: [1, 65, 66, 67]
+
+design_profiles:
+  stable:
+    single_mutation:
+      max_candidates: 3000
+    stage2:
+      stage1_seed_limit: 64
+      max_total_candidates: 900
+    combinatorial_mutation:
+      top_single_seeds: 24
+      max_mutations_per_variant: 2
+      max_candidates_per_order: 600
+    inverse_folding:
+      num_seq_per_target: 24
+      sampling_temps: [0.1, 0.2]
+  full_search:
+    single_mutation:
+      max_candidates: 5000
+    stage2:
+      stage1_seed_limit: 200
+      max_total_candidates: 5200
+    combinatorial_mutation:
+      top_single_seeds: 80
+      max_mutations_per_variant: 5
+      max_candidates_per_order: 4000
+    inverse_folding:
+      num_seq_per_target: 128
+      sampling_temps: [0.1, 0.2, 0.3]
+      fixed_positions: [1, 65, 66, 67]

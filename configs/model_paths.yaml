@@ -1,0 +1,76 @@
+llm:
+  provider: "openai_compatible"
+  api_key_env: "OPENAI_API_KEY"
+  base_url_env: "OPENAI_BASE_URL"
+  model_env: "OPENAI_MODEL"
+  default_base_url: "https://api.openai.com/v1"
+  default_model: "gpt-4.1-mini"
+
+external:
+  root: "external"
+  repositories_dir: "external/repositories"
+  weights_dir: "external/weights"
+  configs_dir: "external/configs"
+  cache_dir: "external/cache"
+
+esmc:
+  model_name: "biohub/ESMC-600M"
+  model_dir: "external/weights/esmc/ESMC-600M"
+  embedding_cache_dir: "artifacts/embeddings/esmc"
+  embedding_dim: 1152
+  pooling: "mean"
+  device: "auto"
+  dtype: "float32"
+  batch_size: 8
+
+brightness:
+  abs_model: "artifacts/models/brightness/esmc_brightness_abs_xgb.joblib"
+  delta_model: "artifacts/models/brightness/esmc_brightness_delta_xgb.joblib"
+
+stability:
+  retention72_model: "artifacts/models/stability/retention72.joblib"
+  use_retention72_model_if_exists: false
+  esmc_pll_enabled: true
+  esmfold_enabled: true
+  esmfold_model_dir: "external/weights/esmfold/esmfold_v1"
+  esmfold_cache_dir: "artifacts/structures/esmfold"
+  structure_output_dir: "artifacts/structures"
+  esmfold_top_k: 24
+  esmfold_batch_size: 1
+  esmfold_device: "auto"
+  zero_shot_weights:
+    esmc: 0.45
+    esmfold: 0.25
+    thermompnn: 0.30
+  structure_search_dirs:
+    - "data/raw/structures"
+    - "external/configs/structures"
+    - "external/cache/structures"
+  thermompnn_repo: "external/repositories/ThermoMPNN"
+  thermompnn_script: "external/repositories/ThermoMPNN/analysis/custom_inference.py"
+  thermompnn_output_dir: "artifacts/thermompnn_outputs"
+  thermompnn_chain: "A"
+  thermompnn_checkpoint: "external/repositories/ThermoMPNN/models/thermoMPNN_default.pt"
+  foldx_binary: "foldx"
+  rasp_repo: "external/repositories/RaSP"
+  rasp_parser_script: "external/repositories/RaSP/src/pdb_parser_scripts/parse_pdbs_pred.sh"
+  rasp_output_dir: "artifacts/rasp_outputs"
+  rasp_reduce_exe: "external/repositories/RaSP/src/pdb_parser_scripts/reduce/reduce_src/reduce"
+
+inverse_folding:
+  enabled: true
+  proteinmpnn_script: "external/repositories/ProteinMPNN/protein_mpnn_run.py"
+  structure_search_dirs:
+    - "data/raw/structures"
+    - "external/configs/structures"
+    - "external/cache/structures"
+  proteinmpnn_weights_dir: "external/repositories/ProteinMPNN/vanilla_model_weights"
+  proteinmpnn_out_dir: "artifacts/proteinmpnn_outputs"
+
+design_profiles:
+  stable:
+    stability:
+      esmfold_top_k: 8
+  full_search:
+    stability:
+      esmfold_top_k: 24
