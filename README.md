@@ -273,3 +273,5 @@ python -m spebt_agent.cli.setup_tool_envs --install-requirements
 - **确定性恢复**：失败恢复规则硬编码，不依赖 LLM "自己猜"
 - **中文友好**：默认提示词和输出优先中文
 - **向后兼容**：底层 `run_design` 继续可用，不受 Agent 层影响
+
+## spuerEasternBlott————致敬传奇生物实验方法Southern Blot
